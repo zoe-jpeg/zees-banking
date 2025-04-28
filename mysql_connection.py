@@ -1,17 +1,27 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from functions import introduction  # Import from intro.py
+import mysql.connector
+import os
 
-class WebHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        content = introduction()  # Call the function to get the HTML
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write(content.encode("utf-8"))
+def show_all():
+    os.system("clear")
 
-# Run the server
-server_address = ('', 8000)
-httpd = HTTPServer(server_address, WebHandler)
 
-print("Server running at http://localhost:8000/")
-httpd.serve_forever()
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Zb01101944!?*",
+        database="example"
+    )
+
+    cursor = connection.cursor()
+
+    testQuery = 'SELECT * FROM student'
+
+    cursor.execute(testQuery)
+
+    for item in cursor:
+        print(item)
+
+    cursor.close()
+    connection.close()
+
+show_all()
